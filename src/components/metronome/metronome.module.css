@@ -1,0 +1,12 @@
+.tempoContainer {
+    /* border: 2px solid pink; */
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.playButtonContainer {
+    margin-top: 5vh;
+}
