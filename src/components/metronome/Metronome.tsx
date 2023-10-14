@@ -8,18 +8,13 @@ interface MetronomeProps {
     // Define props here
 }
 
-// TODO: Have a circle around the Tempo that will be the way to change it. Starts at
-// 6 o'clock then goes up as the number goes clockwise. Minimum 30? ).tempoController
-
-// TODO: Give the option to accent beats using GainNode from webaudioapi
+// TODO: Give the option to accent beats
 // TODO: Pan slider, horizontal under tempo
 // TODO: Volume control somewhere
 const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
     const [tempo, setTempo] = useState<number>(60);
     const [play, setPlay] = useState<boolean>(false);
     const [isDragging, setIsDragging] = useState<boolean>(false);
-
-
 
     const onTempoChange = (newTempo: number): void => {
         setTempo(newTempo);

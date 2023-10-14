@@ -1,0 +1,15 @@
+.topHeaderContainer, .bottomHeaderContainer {
+    width: 100vw;
+    background-color: #4990E2;
+    color: white;
+}
+
+.topHeader, .bottomHeader {
+    width: 10vw;
+}
+
+.middleHeader {
+    height: 12vh;
+    font-size: 3rem;
+    color: #4990E2;
+}
