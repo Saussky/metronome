@@ -9,4 +9,33 @@
 
 .playButtonContainer {
     margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+  
+.playButton {
+    background-color: #4990E2;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;    
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+
+}
+  
+.playButton:hover {
+    background-color: #add8e6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .playButton:active {
+    background-color: #7da2a9;
+    box-shadow: none;
+  }
+  
+  .playButton:focus {
+    outline: none;
+  }
