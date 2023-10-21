@@ -16,7 +16,7 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
     const [tempo, setTempo] = useState<number>(60);
     const [play, setPlay] = useState<boolean>(false);
     const [isDragging, setIsDragging] = useState<boolean>(false);
-    const [accentBeat, setAccentBeat] = useState<number>(0);
+    const [accentBeats, setAccentBeats] = useState<number[]>([]);
 
     const onTempoChange = (newTempo: number): void => {
         setTempo(newTempo);
@@ -27,7 +27,6 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
     }
 
     useEffect(() => {
-        console.log('accentBeat', accentBeat);
         let beatCounter = 0;
         const volume = new Volume().toDestination();
 
@@ -42,7 +41,9 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
 
         const loop = (time: number) => {
             beatCounter++;
-            if ((accentBeat === 4 && beatCounter % 4 === 0) || (accentBeat !== 0 && beatCounter % 4 === accentBeat)) {
+            const currentBeat = beatCounter % 4 === 0 ? 4 : beatCounter % 4;
+            if (accentBeats.includes(currentBeat)) {
+                console.log('hi');
                 volume.volume.setValueAtTime(-5, Transport.immediate());
             } else {
                 volume.volume.setValueAtTime(-12, Transport.immediate());
@@ -61,7 +62,7 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
             Transport.stop();
             Transport.cancel();
         };
-    }, [tempo, play, isDragging, accentBeat]);
+    }, [tempo, play, isDragging, accentBeats]);
 
 
     return (
@@ -85,7 +86,7 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
                     {!play ? 'Play' : 'Pause'}
                 </button>
 
-                <AccentButtons accentBeat={accentBeat} setAccentBeat={setAccentBeat}/>
+                <AccentButtons accentBeats={accentBeats} setAccentBeats={setAccentBeats} />
             </div>
         </div>
     );
