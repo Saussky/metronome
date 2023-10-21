@@ -1,0 +1,18 @@
+
+.accentButtonContainer {
+    display: flex;
+    margin-top: 10px;  /* adjust as needed */
+}
+
+.accentButton {
+    flex: 1;
+    padding: 10px;  /* adjust as needed */
+    border: 1px solid #000;  /* border color */
+    background-color: #fff;  /* default background color */
+    cursor: pointer;
+    transition: background-color 0.2s;  /* smooth color transition */
+}
+
+.accentButton.active {
+    background-color: #ddd;  /* active button color, adjust as needed */
+}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './metronome.module.css';
 import { Synth, Transport, Loop, Gain, Volume } from 'tone';
 import CircularSlider from '@fseehawer/react-circular-slider';
+import AccentButtons from '../accent/AccentButtons';
 
 interface MetronomeProps {
     // Define props here
@@ -15,7 +16,7 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
     const [tempo, setTempo] = useState<number>(60);
     const [play, setPlay] = useState<boolean>(false);
     const [isDragging, setIsDragging] = useState<boolean>(false);
-    const [accentBeat, setAccentBeat] = useState<number>(1);
+    const [accentBeat, setAccentBeat] = useState<number>(0);
 
     const onTempoChange = (newTempo: number): void => {
         setTempo(newTempo);
@@ -26,9 +27,10 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
     }
 
     useEffect(() => {
+        console.log('accentBeat', accentBeat);
         let beatCounter = 0;
         const volume = new Volume().toDestination();
-        
+
         const synth = new Synth({
             envelope: {
                 attack: 0.001,
@@ -37,30 +39,30 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
                 release: 0.1,
             }
         }).connect(volume);
-    
+
         const loop = (time: number) => {
             beatCounter++;
-            if (beatCounter % 4 === accentBeat) {
+            if ((accentBeat === 4 && beatCounter % 4 === 0) || (accentBeat !== 0 && beatCounter % 4 === accentBeat)) {
                 volume.volume.setValueAtTime(-5, Transport.immediate());
             } else {
                 volume.volume.setValueAtTime(-12, Transport.immediate());
             }
             synth.triggerAttackRelease("C5", "32n", time);
         };
-    
+
         if (play && !isDragging) {
             beatCounter = 0;
             Transport.bpm.value = tempo;
             Transport.scheduleRepeat(loop, "4n");
             Transport.start();
         }
-    
+
         return () => {
             Transport.stop();
             Transport.cancel();
         };
     }, [tempo, play, isDragging, accentBeat]);
-    
+
 
     return (
         <div className={styles.tempoContainer}>
@@ -83,12 +85,7 @@ const MetronomeComponent: React.FC<MetronomeProps> = (props) => {
                     {!play ? 'Play' : 'Pause'}
                 </button>
 
-                <select onChange={(e) => setAccentBeat(Number(e.target.value))}>
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                </select>
+                <AccentButtons accentBeat={accentBeat} setAccentBeat={setAccentBeat}/>
             </div>
         </div>
     );
